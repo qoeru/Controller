@@ -43,7 +43,7 @@ class Login extends StatelessWidget {
       ),
     );
 
-    var textFieldBorder = OutlineInputBorder(
+    var textFieldBorder = const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white),
         borderRadius: BorderRadius.all(Radius.circular(10)));
 
@@ -67,6 +67,28 @@ class Login extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.red.withOpacity(0.5),
                       borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.question_mark_rounded,
+                            color: Colors.pink.shade100,
+                          )),
+                      Expanded(
+                        flex: 4,
+                        child: Text(
+                          'Обратитесь в диспетчерскую, чтобы получить пароль.',
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 phoneNumberString,
                 TextField(

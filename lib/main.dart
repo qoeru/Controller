@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Контролёр',
       theme: ThemeData(
-        textTheme: GoogleFonts.ibmPlexSansTextTheme(),
+        textTheme: GoogleFonts.openSansTextTheme(),
       ),
       home: const AuthPage(),
     );
