@@ -1,16 +1,11 @@
-# controler_app
+# 🚖Контролёр
 
-A new Flutter project.
+Пет-проект на флаттере.
 
-## Getting Started
+## Описание
 
-This project is a starting point for a Flutter application.
+> На данный момент приложение находится на стадии разработки
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Ближайшие To-Do:
+- [ ] Доверстать первый экран (вход в личный кабинет)
+- [ ] Доверстать второй экран (выгрузка фото)
