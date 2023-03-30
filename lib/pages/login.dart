@@ -1,3 +1,4 @@
+import 'package:controler_app/pages/request.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatelessWidget {
@@ -52,7 +53,7 @@ class Login extends StatelessWidget {
         alignment: Alignment.center,
         child: Container(
           width: 300,
-          height: 400,
+          height: 450,
           decoration: BoxDecoration(
               border: Border.all(width: 1, color: Colors.white30),
               borderRadius: const BorderRadius.all(Radius.circular(20))),
@@ -100,6 +101,7 @@ class Login extends StatelessWidget {
                     disabledBorder: textFieldBorder,
                   ),
                   style: TextStyle(color: Colors.white),
+                  keyboardType: TextInputType.phone,
                 ),
                 passwordString,
                 TextField(
@@ -111,7 +113,27 @@ class Login extends StatelessWidget {
                     disabledBorder: textFieldBorder,
                   ),
                   style: TextStyle(color: Colors.white),
-                )
+                  obscureText: true,
+                ),
+                FilledButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RequestPage()),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.send,
+                    color: Colors.blueGrey.shade700,
+                  ),
+                  label: Text(
+                    'Отправить',
+                    style: TextStyle(
+                        color: Colors.blueGrey.shade700,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: FilledButton.styleFrom(backgroundColor: Colors.white),
+                ),
               ],
             ),
           ),
