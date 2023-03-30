@@ -21,20 +21,25 @@ class techReview extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 30, horizontal: 25),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Техосмотр',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+                Center(
+                  child: Text(
+                    'Техосмотр',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                Text(
-                  'Статус: Новая заявка',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                    fontSize: 14,
+                Center(
+                  child: Text(
+                    'Статус: Новая заявка',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.5),
+                      fontSize: 14,
+                    ),
                   ),
                 ),
                 const SizedBox(
