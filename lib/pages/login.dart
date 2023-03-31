@@ -1,3 +1,4 @@
+import 'package:controler_app/models/apiService.dart';
 import 'package:controler_app/pages/request.dart';
 import 'package:flutter/material.dart';
 
@@ -48,6 +49,11 @@ class Login extends StatelessWidget {
         borderSide: BorderSide(color: Colors.white),
         borderRadius: BorderRadius.all(Radius.circular(10)));
 
+    final _phoneController = TextEditingController();
+    final _passwordController = TextEditingController();
+
+    ApiService apiService = ApiService();
+
     return SafeArea(
       child: Align(
         alignment: Alignment.center,
@@ -76,7 +82,7 @@ class Login extends StatelessWidget {
                             Icons.question_mark_rounded,
                             color: Colors.pink.shade100,
                           )),
-                      Expanded(
+                      const Expanded(
                         flex: 4,
                         child: Text(
                           'Обратитесь в диспетчерскую, чтобы получить пароль.',
@@ -93,6 +99,7 @@ class Login extends StatelessWidget {
                 ),
                 phoneNumberString,
                 TextField(
+                  controller: _phoneController,
                   decoration: InputDecoration(
                     hintText: '+79999999999',
                     hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
@@ -105,6 +112,7 @@ class Login extends StatelessWidget {
                 ),
                 passwordString,
                 TextField(
+                  controller: _passwordController,
                   decoration: InputDecoration(
                     hintText: 'Ваш пароль',
                     hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
@@ -115,25 +123,26 @@ class Login extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                   obscureText: true,
                 ),
-                FilledButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RequestPage()),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.send,
-                    color: Colors.blueGrey.shade700,
-                  ),
-                  label: Text(
-                    'Отправить',
-                    style: TextStyle(
-                        color: Colors.blueGrey.shade700,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  style: FilledButton.styleFrom(backgroundColor: Colors.white),
-                ),
+                Builder(builder: (context) {
+                  return FilledButton.icon(
+                    onPressed: () {
+                      apiService.login(
+                          _phoneController.text, _passwordController.text);
+                    },
+                    icon: Icon(
+                      Icons.send,
+                      color: Colors.blueGrey.shade700,
+                    ),
+                    label: Text(
+                      'Отправить',
+                      style: TextStyle(
+                          color: Colors.blueGrey.shade700,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    style:
+                        FilledButton.styleFrom(backgroundColor: Colors.white),
+                  );
+                }),
               ],
             ),
           ),
