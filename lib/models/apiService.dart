@@ -10,9 +10,7 @@ import 'package:controler_app/env.sample.dart';
 class ApiService {
   ApiService();
 
-  void login(String phone, String password) async {
-    log(phone);
-    log(password);
+  Future<bool> isLoggedIn(String phone, String password) async {
     try {
       var response = await http.post(Uri.parse(Env.baseUrl + Env.apiEndpoint),
           body: jsonEncode(<String, String>{
@@ -24,12 +22,11 @@ class ApiService {
             "content-type": "application/json"
           });
       if (response.statusCode == 200) {
-        log('congratulations!');
-      } else {
-        log(response.statusCode.toString());
+        return true;
       }
     } catch (e) {
       log(e.toString());
     }
+    return false;
   }
 }
