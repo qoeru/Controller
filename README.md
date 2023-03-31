@@ -7,8 +7,4 @@
 > На данный момент приложение находится на стадии разработки
 
 ### Скриншоты
-<img src="https://user-images.githubusercontent.com/66938523/228627960-e31b9842-5820-4b40-9e53-cde173162093.jpg" width="250">
-
-Ближайшие To-Do:
-- [ ] Доверстать первый экран (вход в личный кабинет)
-- [ ] Доверстать второй экран (выгрузка фото)
+<img src="https://user-images.githubusercontent.com/66938523/228953293-20e7e4a5-3e05-493a-b092-c7ceab3c6635.png" width="273"> <img src="https://user-images.githubusercontent.com/66938523/228953178-82e4f03c-7b50-4db8-af5f-33d225d4f6d4.png" width="250">
