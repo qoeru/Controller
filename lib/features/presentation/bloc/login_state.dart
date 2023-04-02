@@ -8,14 +8,22 @@ abstract class LoginState {
   // LoginState({required this.phoneNumber, this.password});
 }
 
-class LoginUninitialized extends LoginState {}
-
-class LoginAuthenticated extends LoginState {
-  final User user;
-
-  LoginAuthenticated({required this.user});
+class LoginUninitialized extends LoginState {
+  @override
+  String toString() => 'LoginUninitialized';
 }
 
-class LoginUnauthenticated extends LoginState {}
+class LoginAuthenticated extends LoginState {
+  @override
+  String toString() => 'LoginAuthenticated';
+}
 
-class LoginLoading extends LoginState {}
+class LoginUnauthenticated extends LoginState {
+  @override
+  String toString() => 'LoginUnauthenticated';
+}
+
+class LoginLoading extends LoginState {
+  @override
+  String toString() => 'LoginLoading';
+}

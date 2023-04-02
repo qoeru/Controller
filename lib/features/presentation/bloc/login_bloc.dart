@@ -2,8 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:controler_app/features/auth/data/models/token_obtain_pair.dart';
 import 'package:meta/meta.dart';
 import 'package:controler_app/features/auth/data/data_sources/auth_provider.dart';
-import 'package:controler_app/features/auth/data/models/User.dart';
+import 'package:controler_app/features/auth/data/models/user.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -13,6 +14,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginUninitialized()) {
     AuthProvider authProvider = AuthProvider();
+
     on<LoggingIn>((event, emit) async {
       int statusCode = await authProvider.getAuthStatus(
           event.tokenPair.password.toString(),
@@ -20,11 +22,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (statusCode != 200 && statusCode != 201) {
         emit(LoginUnauthenticated());
       } else {
-        emit(LoginAuthenticated(
-            user:
-                await authProvider.getUser(event.tokenPair.phone.toString())));
+        emit(LoginAuthenticated());
       }
     });
+
+    on<AppStarted>((event, emit) async {});
 
     on<LoggingOut>((event, emit) async {} // TODO: implement event handler
         );
