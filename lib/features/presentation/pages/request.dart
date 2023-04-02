@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:controler_app/features/auth/data/models/apiService.dart';
 
 class techReview extends StatelessWidget {
   const techReview({super.key});

@@ -2,7 +2,7 @@ class TokenObtainPair {
   String? phone;
   String? password;
 
-  TokenObtainPair({this.phone, this.password});
+  TokenObtainPair({required this.phone, required this.password});
 
   TokenObtainPair.fromJson(Map<String, dynamic> json) {
     phone = json['phone'];
@@ -11,8 +11,8 @@ class TokenObtainPair {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['phone'] = this.phone;
-    data['password'] = this.password;
+    data['phone'] = phone;
+    data['password'] = password;
     return data;
   }
 }

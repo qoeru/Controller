@@ -3,23 +3,45 @@ import 'dart:convert';
 import 'package:controler_app/features/auth/data/models/token_obtain_pair.dart';
 import 'package:http/http.dart' as http;
 import 'package:controler_app/config/env.sample.dart';
+import 'package:controler_app/features/auth/data/models/User.dart';
 
 class AuthProvider {
   AuthProvider();
 
-  final String _url = Env.baseUrl + Env.apiEndpoint;
+  final String _tokenUrl = Env.baseUrl + Env.apiTokenEndpoint;
+  final String _usersUrl =
+      Env.baseUrl + Env.apiAdminPanelEndpoint + Env.apiUsersEndpoint;
 
-  Future<String> getAuthStatus(String password, String phoneNumber) async {
+  Map<String, String> get headers => {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+
+  Future<int> getAuthStatus(String password, String phoneNumber) async {
     TokenObtainPair tokenPair =
         TokenObtainPair(password: password, phone: phoneNumber);
     final response = await http.post(
-      Uri.parse(_url),
+      Uri.parse(_tokenUrl),
       body: jsonEncode(tokenPair.toJson()),
-      headers: {
-        "Accept": "application/json",
-        "content-type": "application/json"
-      },
+      headers: headers,
     );
-    return response.statusCode.toString();
+    return response.statusCode;
+  }
+
+  Future<User> getUser(String phoneNumber) async {
+    final response = await http.get(
+      Uri.parse(_usersUrl),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> users = jsonDecode(response.body);
+      for (final user in users) {
+        if (user['phoneNumber'] == phoneNumber) {
+          return User.fromJson(user);
+        }
+      }
+    }
+    throw Exception('User not found');
   }
 }

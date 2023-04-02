@@ -1,10 +1,12 @@
-import 'package:controler_app/models/apiService.dart';
-import 'package:controler_app/pages/login.dart';
-import 'package:controler_app/pages/request.dart';
+import 'package:controler_app/features/presentation/bloc/login_bloc.dart';
+import 'package:controler_app/features/presentation/pages/loginPage.dart';
+import 'package:controler_app/features/presentation/pages/home_page.dart';
+import 'package:controler_app/features/presentation/pages/request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget _defaultHome = const AuthPage();
+Widget _defaultHome = AuthPage();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +26,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.openSansTextTheme(),
       ),
-      routes: {
-        '/': (context) => const AuthPage(),
-        '/user': (context) => const RequestPage(),
-      },
+      // routes: {
+      //   '/': (context) => AuthPage(),
+      //   '/user': (context) => const RequestPage(),
+      // },
+      home: BlocProvider(
+        create: (context) => LoginBloc(),
+        child: HomePage(),
+      ),
     );
   }
 }

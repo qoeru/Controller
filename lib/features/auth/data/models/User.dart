@@ -8,17 +8,18 @@ String userModelToJson(List<User> data) =>
 
 class User {
   final String username;
-  final String full_name;
+  final String fullname;
+  bool hasToken = false;
 
-  User({required this.username, required this.full_name});
+  User({required this.username, required this.fullname});
 
   Map<String, dynamic> toJson() => {
         "username": username,
-        "full_name": full_name,
+        "full_name": fullname,
       };
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         username: json["username"],
-        full_name: json["full_name"],
+        fullname: json["full_name"],
       );
 }
