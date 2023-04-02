@@ -1,9 +1,8 @@
-import 'package:controler_app/features/presentation/pages/home_page.dart';
-import 'package:controler_app/features/presentation/pages/loginPage.dart';
-import 'package:controler_app/features/presentation/pages/request.dart';
+import 'app/bloc/login_bloc.dart';
+import 'app/pages/auth_page.dart';
+import 'app/pages/request_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:controler_app/features/presentation/bloc/login_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {

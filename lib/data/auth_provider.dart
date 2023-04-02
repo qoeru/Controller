@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:controler_app/features/auth/data/models/token_obtain_pair.dart';
+import 'package:controler_app/domain/models/token_obtain_pair.dart';
 import 'package:http/http.dart' as http;
-import 'package:controler_app/config/env.sample.dart';
-import 'package:controler_app/features/auth/data/models/user.dart';
+import 'package:controler_app/data/env.sample.dart';
+import 'package:controler_app/domain/models/user.dart';
 
 class AuthProvider {
   AuthProvider();

@@ -1,7 +1,7 @@
-import 'package:controler_app/features/presentation/bloc/login_bloc.dart';
+import 'package:controler_app/app/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:controler_app/features/auth/data/models/token_obtain_pair.dart';
+import 'package:controler_app/domain/models/token_obtain_pair.dart';
 
 class AuthPage extends StatelessWidget {
   var _phoneController = TextEditingController();

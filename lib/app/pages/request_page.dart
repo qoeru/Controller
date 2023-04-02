@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class techReview extends StatelessWidget {
-  const techReview({super.key});
+class TechReview extends StatelessWidget {
+  const TechReview({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +147,7 @@ class RequestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey.shade700,
-      body: techReview(),
+      body: TechReview(),
     );
   }
 }
