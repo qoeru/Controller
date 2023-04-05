@@ -1,4 +1,6 @@
+import 'package:controler_app/app/bloc/cubit/camera_button_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TechReview extends StatelessWidget {
   const TechReview({super.key});
@@ -6,7 +8,7 @@ class TechReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textFieldBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.white.withOpacity(0.5)),
+      borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
       borderRadius: BorderRadius.all(Radius.circular(10)),
     );
     return SafeArea(
@@ -61,30 +63,7 @@ class TechReview extends StatelessWidget {
                       border: Border.all(width: 1, color: Colors.white30),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10))),
-                  child: Container(
-                    margin: EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: Colors.white30),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        color: Colors.white.withOpacity(0.1)),
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.photo,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Загрузить фотографии',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  child: CameraPlace(),
                 ),
                 const SizedBox(
                   height: 20,
@@ -110,7 +89,7 @@ class TechReview extends StatelessWidget {
                     enabledBorder: textFieldBorder,
                     disabledBorder: textFieldBorder,
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   maxLines: 2,
                   keyboardType: TextInputType.multiline,
                 ),
@@ -146,8 +125,68 @@ class RequestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey.shade700,
       body: TechReview(),
     );
+  }
+}
+
+class CameraPlace extends StatelessWidget {
+  const CameraPlace({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CameraButtonCubit, CameraButtonState>(
+      builder: (context, state) {
+        if (state is CameraButtonPhotoTaken) {
+          return SmallImageGallery();
+        }
+        if (state is CameraButtonInitial) {
+          return CameraButton();
+        }
+        return const Placeholder();
+      },
+    );
+  }
+}
+
+class CameraButton extends StatelessWidget {
+  const CameraButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(6),
+      decoration: BoxDecoration(
+          border: Border.all(width: 1, color: Colors.white30),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          color: Colors.white.withOpacity(0.1)),
+      child: OutlinedButton(
+        onPressed: () {
+          context.read<CameraButtonCubit>().shootImageFromCamera();
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(
+              Icons.photo,
+              color: Colors.white,
+            ),
+            Text(
+              'Загрузить фотографии',
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SmallImageGallery extends StatelessWidget {
+  const SmallImageGallery({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(color: Colors.red);
   }
 }
