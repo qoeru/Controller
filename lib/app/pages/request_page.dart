@@ -1,6 +1,9 @@
 import 'package:controler_app/app/bloc/cubit/camera_button_cubit.dart';
+import 'package:controler_app/config/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:controler_app/data/globals.dart' as globals;
+import 'dart:io';
 
 class TechReview extends StatelessWidget {
   const TechReview({super.key});
@@ -15,13 +18,14 @@ class TechReview extends StatelessWidget {
       child: Center(
         child: Container(
           width: 300,
-          height: 490,
+          // height: 490,
           decoration: BoxDecoration(
               border: Border.all(width: 1, color: Colors.white30),
               borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 30, horizontal: 25),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Center(
@@ -57,16 +61,40 @@ class TechReview extends StatelessWidget {
                   height: 40,
                 ),
                 Container(
-                  height: 100,
-                  width: 300,
+                  // height: 100,
+                  // width: 300,
                   decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.white30),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10))),
                   child: CameraPlace(),
                 ),
-                const SizedBox(
-                  height: 20,
+                BlocBuilder<CameraButtonCubit, CameraButtonState>(
+                  builder: (context, state) {
+                    if (state is CameraButtonPhotoTaken) {
+                      return FilledButton.icon(
+                          onPressed: () => {
+                                context
+                                    .read<CameraButtonCubit>()
+                                    .shootImageFromCamera()
+                              },
+                          icon: const Icon(
+                            Icons.add,
+                            color: AppColors.black,
+                          ),
+                          label: const Text(
+                            'Добавить фото',
+                            style: TextStyle(
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          style: FilledButton.styleFrom(
+                              backgroundColor: Colors.white));
+                    }
+                    return SizedBox(
+                      height: 20,
+                    );
+                  },
                 ),
                 const Align(
                   alignment: Alignment.centerLeft,
@@ -98,17 +126,17 @@ class TechReview extends StatelessWidget {
                 ),
                 FilledButton.icon(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.send,
-                    color: Colors.blueGrey.shade700,
+                    color: Colors.white,
                   ),
-                  label: Text(
+                  label: const Text(
                     'Отправить',
                     style: TextStyle(
-                        color: Colors.blueGrey.shade700,
-                        fontWeight: FontWeight.bold),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  style: FilledButton.styleFrom(backgroundColor: Colors.white),
+                  style:
+                      FilledButton.styleFrom(backgroundColor: AppColors.orange),
                 ),
               ],
             ),
@@ -137,7 +165,8 @@ class CameraPlace extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CameraButtonCubit, CameraButtonState>(
       builder: (context, state) {
-        if (state is CameraButtonPhotoTaken) {
+        if (state is CameraButtonPhotoTaken ||
+            state is CameraButtonMaxPhotoTaken) {
           return SmallImageGallery();
         }
         if (state is CameraButtonInitial) {
@@ -155,15 +184,16 @@ class CameraButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(6),
+      height: 70,
+      // width: 100,
+      margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
           border: Border.all(width: 1, color: Colors.white30),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           color: Colors.white.withOpacity(0.1)),
       child: OutlinedButton(
-        onPressed: () {
-          context.read<CameraButtonCubit>().shootImageFromCamera();
-        },
+        onPressed: () =>
+            {context.read<CameraButtonCubit>().shootImageFromCamera()},
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
@@ -187,6 +217,82 @@ class SmallImageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.red);
+    return SizedBox(
+      height: 170,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Scrollbar(
+          // trackVisibility: true,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: globals.currentPhotoCount,
+              itemBuilder: ((context, index) {
+                return PhotoBlock(
+                  index: index,
+                );
+              })),
+        ),
+      ),
+    );
   }
 }
+
+class PhotoBlock extends StatelessWidget {
+  int index;
+
+  PhotoBlock({required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Row(
+        children: [
+          Container(
+            height: 150,
+            width: 150,
+            decoration: BoxDecoration(
+              border: Border.all(width: 2, color: Colors.white30),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+              image: DecorationImage(
+                  image: Image.file(
+                    File(
+                      globals.currentPhotos![index].path,
+                    ),
+                  ).image,
+                  fit: BoxFit.cover),
+            ),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                onPressed: () {
+                  context.read<CameraButtonCubit>().deleteTakenImage(index);
+                },
+                icon: const Icon(Icons.close, color: Colors.white),
+                splashColor: Colors.white.withOpacity(0),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// class closeButton extends StatelessWidget {
+//   const closeButton({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return IconButton(
+//       onPressed: () {context.read<CameraButtonCubit>().deleteTakenImage(index)},
+//       icon: const Icon(Icons.close, color: Colors.white),
+//       splashColor: Colors.white.withOpacity(0),
+//     );
+//   }
+// }

@@ -1,7 +1,6 @@
 import 'package:controler_app/app/bloc/cubit/camera_button_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/bloc/login_bloc.dart';
 import 'app/pages/auth_page.dart';
 import 'app/pages/request_page.dart';
 import 'package:flutter/material.dart';
@@ -15,17 +14,19 @@ void main() async {
 
   bool? isLoggedIn = prefs.getBool('isLogged');
 
-  runApp(MultiBlocProvider(
-    providers: [
-      // BlocProvider<LoginBloc>(
-      //   create: (context) => LoginBloc(),
-      // ),
-      BlocProvider(
-        create: (context) => CameraButtonCubit(),
-      ),
-    ],
-    child: MyApp(isLoggedIn: isLoggedIn),
-  ));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        // BlocProvider<LoginBloc>(
+        //   create: (context) => LoginBloc(),
+        // ),
+        BlocProvider(
+          create: (context) => CameraButtonCubit(),
+        ),
+      ],
+      child: MyApp(isLoggedIn: isLoggedIn),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
