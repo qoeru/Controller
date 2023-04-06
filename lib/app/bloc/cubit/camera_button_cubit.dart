@@ -33,4 +33,10 @@ class CameraButtonCubit extends Cubit<CameraButtonState> {
       emit(CameraButtonPhotoTaken());
     }
   }
+
+  void onLogout() {
+    globals.currentPhotos = [];
+    globals.currentPhotoCount = 0;
+    emit(CameraButtonInitial());
+  }
 }

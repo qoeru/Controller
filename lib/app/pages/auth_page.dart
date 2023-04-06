@@ -3,8 +3,9 @@ import 'package:controler_app/app/pages/request_page.dart';
 import 'package:controler_app/config/theme/theme.dart';
 import 'package:controler_app/data_sources/app_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:controler_app/data/globals.dart' as globals;
 import 'package:controler_app/domain/models/token_obtain_pair.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthPage extends StatelessWidget {
   final _phoneController = TextEditingController();
@@ -49,7 +50,7 @@ class AuthPage extends StatelessWidget {
         child: Align(
           alignment: Alignment.center,
           child: Container(
-            width: 300,
+            width: 320,
             height: 450,
             decoration: BoxDecoration(
                 border: Border.all(
@@ -122,31 +123,30 @@ class AuthPage extends StatelessWidget {
                     style: const TextStyle(color: AppColors.white),
                     obscureText: true,
                   ),
-                  Builder(builder: (context) {
-                    return FilledButton.icon(
-                      onPressed: () {
-                        String currentPassword =
-                            _passwordController.text.toString();
-                        String currentPhone = _phoneController.text.toString();
-                        TokenObtainPair currentTokenPair = TokenObtainPair(
-                            phone: currentPhone, password: currentPassword);
-                        appUtil.login(currentTokenPair);
-                        Navigator.of(context).push((MaterialPageRoute(
-                            builder: (BuildContext context) => RequestPage())));
-                      },
-                      icon: const Icon(
-                        Icons.send,
-                        color: Colors.white,
-                      ),
-                      label: const Text(
-                        'Отправить',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.orange),
-                    );
-                  }),
+                  FilledButton.icon(
+                    onPressed: () {
+                      String currentPassword =
+                          _passwordController.text.toString();
+                      String currentPhone = _phoneController.text.toString();
+                      TokenObtainPair currentTokenPair = TokenObtainPair(
+                          phone: currentPhone, password: currentPassword);
+                      appUtil.login(currentTokenPair, context, RequestPage());
+                      // context
+                      //     .read<LoginBloc>()
+                      //     .add(LoggingIn(tokenPair: currentTokenPair));
+                    },
+                    icon: const Icon(
+                      Icons.send,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      'Отправить',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.orange),
+                  ),
                 ],
               ),
             ),
@@ -154,5 +154,10 @@ class AuthPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void moveToHomePage(BuildContext context, Widget page) {
+    Navigator.pushReplacement(
+        context, (MaterialPageRoute(builder: (BuildContext context) => page)));
   }
 }

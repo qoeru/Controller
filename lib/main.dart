@@ -1,4 +1,6 @@
 import 'package:controler_app/app/bloc/cubit/camera_button_cubit.dart';
+import 'package:controler_app/app/bloc/cubit/request_cubit.dart';
+import 'package:controler_app/app/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/pages/auth_page.dart';
@@ -17,9 +19,10 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        // BlocProvider<LoginBloc>(
-        //   create: (context) => LoginBloc(),
-        // ),
+        BlocProvider<LoginBloc>(create: (context) => LoginBloc()),
+        BlocProvider<RequestCubit>(
+          create: (context) => RequestCubit(),
+        ),
         BlocProvider(
           create: (context) => CameraButtonCubit(),
         ),

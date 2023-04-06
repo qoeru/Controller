@@ -7,5 +7,6 @@ ThemeData DarkTheme() {
   return ThemeData(
     textTheme: GoogleFonts.openSansTextTheme(),
     scaffoldBackgroundColor: AppColors.black,
+    primaryColor: AppColors.black,
   );
 }
