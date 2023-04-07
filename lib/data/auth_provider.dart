@@ -11,6 +11,7 @@ class AuthProvider {
   final String _tokenUrl = Env.baseUrl + Env.apiTokenEndpoint;
   final String _usersUrl =
       Env.baseUrl + Env.apiAdminPanelEndpoint + Env.apiUsersEndpoint;
+  final String _issueUrl = Env.baseUrl + Env.issueEnpoint;
 
   Map<String, String> get headers => {
         "Content-Type": "application/json",
@@ -43,5 +44,15 @@ class AuthProvider {
       }
     }
     throw Exception('User not found');
+  }
+
+  void getIssueStatus() async {
+    // final response = await http.get(Uri.parse(_issueUrl), headers: headers);
+
+    // if (response.statusCode == 200) {
+    //   final List<dynamic> issueStatus = jsonDecode(response.body);
+    //   return issueStatus;
+    // }
+    // throw Exception('Couldn\'t connect');
   }
 }

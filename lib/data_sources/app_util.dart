@@ -12,8 +12,6 @@ class AppUtil {
     if (statusCode == 200 || statusCode == 201) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLogged', true);
-      Navigator.pushReplacement(context,
-          (MaterialPageRoute(builder: (BuildContext context) => page)));
     }
   }
 }

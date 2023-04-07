@@ -1,5 +1,6 @@
 import 'package:controler_app/app/bloc/cubit/camera_button_cubit.dart';
-import 'package:controler_app/app/bloc/cubit/request_cubit.dart';
+import 'package:controler_app/app/bloc/cubit/issue_cubit.dart';
+import 'package:controler_app/app/bloc/cubit/request_page_cubit.dart';
 import 'package:controler_app/app/pages/auth_page.dart';
 import 'package:controler_app/config/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RequestPage extends StatelessWidget {
-  const RequestPage({super.key});
+  // const RequestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class RequestPage extends StatelessWidget {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.setBool('isLogged', false);
 
-              context.read<RequestCubit>().onLogout();
+              context.read<RequestPageCubit>().onLogout();
               context.read<CameraButtonCubit>().onLogout();
 
               Navigator.pushReplacement(
@@ -73,14 +74,22 @@ class ReviewContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              Center(
-                child: Text(
-                  'Статус: Новая заявка',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
-                    fontSize: 14,
-                  ),
-                ),
+              BlocConsumer<IssueCubit, IssueState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  if (state is IssueNew) {
+                    return Center(
+                      child: Text(
+                        'Статус: Новая заявка',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.5),
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }
+                  return Placeholder();
+                },
               ),
               const SizedBox(
                 height: 10,
@@ -146,8 +155,8 @@ class LowerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RequestCubit, RequestState>(
-      builder: (context, RequestState requestState) {
+    return BlocBuilder<RequestPageCubit, RequestPageState>(
+      builder: (context, RequestPageState requestState) {
         return BlocBuilder<CameraButtonCubit, CameraButtonState>(
           builder: (context, CameraButtonState cameraState) {
             if (cameraState is CameraButtonPhotoTaken) {
@@ -173,7 +182,9 @@ class LowerButton extends StatelessWidget {
             }
             if (requestState is RequestPageTwo) {
               return FilledButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<IssueCubit>().getState();
+                },
                 icon: const Icon(
                   Icons.send,
                   color: Colors.white,
@@ -190,7 +201,7 @@ class LowerButton extends StatelessWidget {
 
             return FilledButton.icon(
               onPressed: () {
-                context.read<RequestCubit>().moveToPageTwo();
+                context.read<RequestPageCubit>().moveToPageTwo();
               },
               icon: const Icon(
                 Icons.navigate_next,
@@ -217,7 +228,7 @@ class RequestForms extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RequestCubit, RequestState>(
+    return BlocBuilder<RequestPageCubit, RequestPageState>(
       builder: (context, state) {
         if (state is RequestPageOne) {
           return Container(
@@ -290,7 +301,7 @@ class CameraPlace extends StatelessWidget {
           return SmallImageGallery();
         }
         if (state is CameraButtonInitial) {
-          return CameraButton();
+          return const CameraButton();
         }
         return const Placeholder();
       },

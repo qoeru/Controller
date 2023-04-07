@@ -8,6 +8,8 @@ import 'package:controler_app/domain/models/token_obtain_pair.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthPage extends StatelessWidget {
+  AuthPage({super.key});
+
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -42,8 +44,6 @@ class AuthPage extends StatelessWidget {
     var textFieldBorder = OutlineInputBorder(
         borderSide: BorderSide(color: AppColors.white.withOpacity(0.5)),
         borderRadius: const BorderRadius.all(Radius.circular(10)));
-
-    AppUtil appUtil = AppUtil();
 
     return Scaffold(
       body: SafeArea(
@@ -123,29 +123,44 @@ class AuthPage extends StatelessWidget {
                     style: const TextStyle(color: AppColors.white),
                     obscureText: true,
                   ),
-                  FilledButton.icon(
-                    onPressed: () {
-                      String currentPassword =
-                          _passwordController.text.toString();
-                      String currentPhone = _phoneController.text.toString();
-                      TokenObtainPair currentTokenPair = TokenObtainPair(
-                          phone: currentPhone, password: currentPassword);
-                      appUtil.login(currentTokenPair, context, RequestPage());
-                      // context
-                      //     .read<LoginBloc>()
-                      //     .add(LoggingIn(tokenPair: currentTokenPair));
+                  BlocConsumer<LoginBloc, LoginState>(
+                    listenWhen: (context, state) {
+                      return state is LoginAuthenticated;
                     },
-                    icon: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                    label: const Text(
-                      'Отправить',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    style: FilledButton.styleFrom(
-                        backgroundColor: AppColors.orange),
+                    listener: (context, state) {
+                      Navigator.pushReplacement(
+                          context,
+                          (MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  RequestPage())));
+                    },
+                    builder: (context, state) {
+                      return FilledButton.icon(
+                        onPressed: () {
+                          String currentPassword =
+                              _passwordController.text.toString();
+                          String currentPhone =
+                              _phoneController.text.toString();
+                          TokenObtainPair currentTokenPair = TokenObtainPair(
+                              phone: currentPhone, password: currentPassword);
+                          context.read<LoginBloc>().add(LoggingIn(
+                              tokenPair: currentTokenPair)); // context
+                          //     .read<LoginBloc>()
+                          //     .add(LoggingIn(tokenPair: currentTokenPair));
+                        },
+                        icon: const Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ),
+                        label: const Text(
+                          'Отправить',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.orange),
+                      );
+                    },
                   ),
                 ],
               ),
